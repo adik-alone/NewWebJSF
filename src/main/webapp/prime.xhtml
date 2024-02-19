@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+   <h:head>
+      <style>
+         .customPanelGrid  {
+            width: 50%;
+            margin: 0 auto;
+         }
+      </style>
+   </h:head>
+   <h:body>
+      <h:form id="helloworld">
+         <p:growl id="growl" showDetail="true" />
+         <p:panelGrid columns="2"  styleClass="customPanelGrid"  style="border:0px none; background-color:transparent;">
+            <p:row>
+               <p:column  >
+                  <p style="font-weight: bold;  font-size: 150%;"> Hello World primefaces</p>
+               </p:column>
+            </p:row>
+
+            <h:outputLabel for="word" value="Word" />
+            <p:inputText id="word" value="#{bean.word}" label="Word" />
+            <h:outputLabel for="text" value="Anagram" />
+            <h:outputText id="text" value="#{bean.anagram}" />
+
+            <p:row>
+               <p:column  >
+                  <p>This is a sample Primefaces application which anagrams a word</p>
+               </p:column>
+            </p:row>
+
+            <p:row>
+               <p:column  >
+                  <p:commandButton action="#{bean.generateAnagram}" update="text,growl"
+                                   value="Generate anagram" icon="ui-icon-check" style="width: auto" />
+
+               </p:column>
+            </p:row>
+
+
+         </p:panelGrid>
+      </h:form>
+   </h:body>
+</f:view>
+
+</html>

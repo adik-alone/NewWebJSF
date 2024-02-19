@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Hello word!</title>
+    </h:head>
+    <h:body>
+        <div id="canvas">
+            <canvas id="MyCanvas" width="599" height="400" style="border: black solid 3px"/>
+        </div>
+
+        <f:view>
+
+            <h:form id="shoot-form">
+
+                <div id="choose-X">
+                    <h:commandButton value="-4" actionListener="#{xBean.doXn4()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <h:commandButton value="-3" actionListener="#{xBean.doXn3()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <h:commandButton value="-2" actionListener="#{xBean.doXn2()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <h:commandButton value="-1" actionListener="#{xBean.doXn1()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <h:commandButton value="0" actionListener="#{xBean.doX0()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <h:commandButton value="1" actionListener="#{xBean.doXp1()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <h:commandButton value="2" actionListener="#{xBean.doXp2()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <h:commandButton value="3" actionListener="#{xBean.doXp3()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <h:commandButton value="4" actionListener="#{xBean.doXp4()}">
+                        <f:ajax render="x"/>
+                    </h:commandButton>
+                    <div id="result-x">
+                        <h:outputText id="x" value="#{xBean.x}"/>
+                    </div>
+                </div>
+
+                <div id="choose-y">
+                    <h:inputText id="y-value" value="#{yBean.y}"/>
+                    <h:commandButton value="Aply">
+                        <f:ajax execute="y-value" render="y"/>
+                    </h:commandButton>
+                    <div id="choos-y">
+                        <h:outputText id="y" value="#{yBean.y}"/>
+                    </div>
+                </div>
+
+                <div id="choose-r">
+                    <h:commandButton value="1" actionListener="#{rBean.doR_1()}">
+                        <f:ajax render="r"/>
+                    </h:commandButton>
+                    <h:commandButton value="1.5" actionListener="#{rBean.doR_1_5()}">
+                        <f:ajax render="r"/>
+                    </h:commandButton>
+                    <h:commandButton value="2" actionListener="#{rBean.doR_2()}">
+                        <f:ajax render="r"/>
+                    </h:commandButton>
+                    <h:commandButton value="2.5" actionListener="#{rBean.doR_2_5()}">
+                        <f:ajax render="r"/>
+                    </h:commandButton>
+                    <h:commandButton value="3" actionListener="#{rBean.doR_3()}">
+                        <f:ajax render="r"/>
+                    </h:commandButton>
+                    <div id="result-r">
+                        <h:outputText id="r" value="#{rBean.r}"/>
+                    </div>
+                </div>
+
+                <h:commandButton value="Shot" actionListener="#{resultBean.addNewResult()}">
+                    <f:ajax execute="x y r" render="table text column-res result"/>
+                </h:commandButton>
+            </h:form>
+
+
+            <p:dataTable id="table" var="shot" value="#{resultBean.results}">
+                <p:column class="column-res" headerText="X">
+                    <h:outputText class="text" value="#{shot.x}"/>
+                </p:column>
+                <p:column class="column-res" headerText="Y">
+                    <h:outputText class="text" value="#{shot.y}"/>
+                </p:column>
+                <p:column class="column-res" headerText="R">
+                    <h:outputText class="text" value="#{shot.r}"/>
+                </p:column>
+                <p:column class="column-res" headerText="result">
+                    <h:outputText class="text" value="#{shot.result}"/>
+                </p:column>
+            </p:dataTable>
+        </f:view>
+    </h:body>
+</html>
