@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+
+</h:head>
+<h:body>
+    <f:view>
+        <div>
+            <h:outputText value="Цалов Василий Сергеевич"/>
+        </div>
+        <div>
+            <h:outputText value="Группа: P3207"/>
+        </div>
+        <div>
+            <h:outputText value="Вариант: 16431"/>
+        </div>
+        <h:form id="update-form">
+            <div>
+                <h:outputText id="time" value="#{timeBean.time}"/>
+            </div>
+            <div>
+                <h:outputText id="date" value="#{timeBean.date}"/>
+            </div>
+            <h:commandButton id="update-button" value="" actionListener="#{timeBean.updateDateTime()}" style="display: none">
+                <f:ajax render="time date"/>
+            </h:commandButton>
+        </h:form>
+    </f:view>
+    <script>
+        function updateTime(){
+            const button = document.getElementById("update-form:update-button");
+            button.click();
+        }
+        setInterval(updateTime, 11000);
+    </script>
+</h:body>
+</html>

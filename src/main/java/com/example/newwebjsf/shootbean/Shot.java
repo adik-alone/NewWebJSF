@@ -1,4 +1,4 @@
-package com.example.newwebjsf;
+package com.example.newwebjsf.shootbean;
 
 import java.io.Serializable;
 public class Shot implements Serializable {

@@ -1,14 +1,10 @@
 package com.example.newwebjsf.shootbean;
 
-import com.example.newwebjsf.Shot;
-import com.example.newwebjsf.TestBean;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
 import java.util.*;
 
 @Named
