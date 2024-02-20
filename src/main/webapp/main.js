@@ -1,8 +1,8 @@
 var x_base;
-var y_base = -3;
-var r_base;
+var y_base = 0;
+var r_base = 1;
 
-// getStartPoint();
+getStartPoint();
 
 function CheckForm() {
     console.log(x_base);
@@ -82,28 +82,29 @@ function PostToServer(x, y, r) {
 }
 
 function clearTable(){
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState == XMLHttpRequest.DONE && request.status === 200) {
-            console.log("success");
-            localStorage.clear();
-        }
-    };
-    request.open('DELETE', './dataManage', true);
-    request.send();
-    // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    // localStorage.clear();
+    localStorage.clear();
 }
 function getStartPoint(){
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState == XMLHttpRequest.DONE && request.status === 200) {
-            // console.log("get start point");
-            handleStartPoint(request.responseText);
+    localStorage.clear();
+    const count_row = document.getElementById("table").childNodes[0].childNodes[0].childNodes[1].childNodes.length;
+    // const startpoint = document.getElementsByClassName("text");
+    // console.log(startpoint);
+    for (let i = 0; i < count_row; i++){
+        try{
+            const id = localStorage.length;
+            const xDateValue = document.getElementById("table:" + i + ":point-x-value");
+            const yDateValue = document.getElementById("table:" + i + ":point-y-value");
+            const x = xDateValue.innerHTML;
+            const y = yDateValue.innerHTML;
+            console.log(x, y);
+            const point = x + " " + y;
+            console.log(point);
+            localStorage.setItem("point " + id, point);
+
+        }catch (e){
+            console.log(e);
         }
-    };
-    request.open('GET', './dataManage', true);
-    request.send();
+    }
 }
 
 function handleStartPoint(json){
@@ -126,11 +127,44 @@ function handleStartPoint(json){
 }
 
 // ############################################### Work with canvas
+// /////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////
 
+
+function checkArea(x, y){
+    let result = false;
+    if(x >= 0 && y >= 0){
+        if(x**2 + y**2 <= r_base**2){
+            result = true;
+        }
+    }
+    if(x < 0 && y > 0){
+        result = false;
+    }
+    if(x >= 0 && y <= 0){
+        if (y >= x/2 - r_base/2){
+            result = true;
+        }
+    }
+    if(x <=0 && y <= 0){
+        if(x >= - r_base/2 && y >= -r_base){
+            result = true;
+        }
+    }
+    return result;
+}
 
 function drawPoint(x, y){
-    ctx.fillcolor = "rgb(206, 0, 21)";
-    ctx.fillStyle = "rgb(206, 0, 21)";
+
+    if(checkArea(x, y)){
+        ctx.fillcolor = "rgb(300, 200, 0)";
+        ctx.fillStyle = "rgb(300, 200, 20)";
+    }else{
+        ctx.fillcolor = "rgb(206, 0, 21)";
+        ctx.fillStyle = "rgb(206, 0, 21)";
+    }
+
 
     ctx.beginPath();
     ctx.arc(x * size, y * size, 2, 0, 2 * Math.PI);
@@ -204,17 +238,17 @@ function drawFigures(R){
     ctx.fillcolor = "rgba(67, 174, 239, 0.7)";
     ctx.fillStyle = "rgba(67, 174, 239, 0.7)";
     // прямоугольник
-    ctx.fillRect(0, R * size, R * size/2, -R * size);
-
+    ctx.fillRect(0, -R * size, -R * size/2, R * size);
+    // треугольник
     ctx.beginPath();
     ctx.moveTo(R * size, 0);
-    ctx.lineTo(0, -R * size);
+    ctx.lineTo(0, -R * size/2);
     ctx.lineTo(0, 0);
     ctx.closePath();
     ctx.fill();
     // четверть круга
     ctx.beginPath();
-    ctx.arc(0, 0, R * size/2, Math.PI/2, Math.PI);
+    ctx.arc(0, 0, R * size, 0, Math.PI/2);
     ctx.lineTo(0,0);
     ctx.closePath();
     ctx.fill();
@@ -243,14 +277,14 @@ function drawLines(){
 }
 
 function validX(x){
-    if (x <= -5 || x >= 3){
+    if (x < -4 || x > 4){
         return false;
     }else{
         return true;
     }
 }
 function validY(y){
-    if(y < -3 || y > 5){
+    if(y <= -3 || y >= 3){
         return false;
     }else{
         return true;
@@ -284,10 +318,24 @@ function handleClick(event) {
         const point = x/25 + " " + y/25;
         console.log(point);
         localStorage.setItem("point " + id, point);
-        error.innerHTML = "";
-        PostToServer((x/25).toFixed(2), (y/25).toFixed(2), r_base);
+        // error.innerHTML = "";
+        // PostToServer((x/25).toFixed(2), (y/25).toFixed(2), r_base);
+        console.log(x, y, r_base);
+        fillForm((x/25).toFixed(2), (y/25).toFixed(2), r_base);
     }
     // PostToServer(x, y, r_base);
+}
+
+function fillForm(x_f, y_f, r_f){
+    document.getElementById("shoot-form:x-inv-value").value = x_f;
+    // document.getElementById("shoot-form:invisible-button-x").click();
+    document.getElementById("shoot-form:y-value").value = y_f;
+    document.getElementById("shoot-form:r-inv-value").value = r_f;
+    document.getElementById("shoot-form:x").innerHTML = x_f;
+    document.getElementById("shoot-form:y").innerHTML = y_f;
+    document.getElementById("shoot-form:r").innerHTML = r_f;
+    // document.getElementById("shoot-form").submit();
+    document.getElementById("shoot-form:inv-button-submit").click();
 }
 function drawAllPoint(){
     for(let i = 0; i < localStorage.length; i++) {

@@ -3,18 +3,28 @@ package com.example.newwebjsf.shootbean;
 import com.google.gson.Gson;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.annotation.FacesConfig;
+import jakarta.faces.annotation.ManagedProperty;
+import jakarta.faces.component.html.HtmlCommandButton;
+import jakarta.faces.component.html.HtmlOutputText;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
+import java.io.Console;
 import java.io.Serializable;
+import java.util.function.Supplier;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 @Named
 @SessionScoped
 public class XBean implements Serializable {
-    private int x = 0;
+    private float x = 0;
     public XBean(){}
-    public int getX() {
+    public float getX() {
         return x;
     }
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
@@ -45,8 +55,5 @@ public class XBean implements Serializable {
     public void doXp4(){
         x = 4;
     }
-    public String toJson(){
-        Gson gson = new Gson();
-        return gson.toJson(x);
-    }
+
 }
