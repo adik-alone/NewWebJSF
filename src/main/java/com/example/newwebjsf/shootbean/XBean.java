@@ -1,5 +1,6 @@
 package com.example.newwebjsf.shootbean;
 
+import com.google.gson.Gson;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
@@ -43,5 +44,9 @@ public class XBean implements Serializable {
     }
     public void doXp4(){
         x = 4;
+    }
+    public String toJson(){
+        Gson gson = new Gson();
+        return gson.toJson(x);
     }
 }

@@ -2,46 +2,17 @@ var x_base;
 var y_base = -3;
 var r_base;
 
-getStartPoint();
+// getStartPoint();
 
-
-function CheckX(text_place){
-    let fail = "";
-    const x = text_place.value;
-    if(!/-?[1-90]+[.]?[1-90]*/.test(x)){
-        fail = "X должен быть числом";
-        document.getElementById("x").value = "";
-    }else{
-        if (x <= -5 || x >= 3){
-            document.getElementById("x").value = "";
-            fail = "Х не попадает в диапазон";
-        }else{
-            x_base = x;
-        }
-    }
-    document.getElementById("error").innerHTML = fail;
-    error.removeAttribute("hidden");
-}
-
-function CheckY(selection_place){
-    const y = selection_place.value;
-    y_base = y;
-}
-
-function CheckR(button){
-    const r = button.value;
-    r_base = r;
-}
-
-function CheckForm(){
+function CheckForm() {
     console.log(x_base);
     console.log(y_base);
     console.log(r_base);
-    if(x_base == undefined || r_base == undefined){
+    if (x_base == undefined || r_base == undefined) {
         const fail = "Выбраны не все значения для проверки";
         document.getElementById("error").innerHTML = fail;
         error.removeAttribute("hidden");
-    }else{
+    } else {
         const id = localStorage.length;
         const point = x_base + " " + y_base;
         console.log(point);
@@ -50,87 +21,29 @@ function CheckForm(){
         PostToServer(x_base, y_base, r_base);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-function checkForm1(qualifiedName, value){
-
-    var fail = "";
-    var x_arr = document.getElementsByName("X");
-    var y = document.getElementById("choose-y").value;
-    var r = document.getElementById("select-r").value;
-    var x = null;
-    var count = 0;
-
-    for(var i = 0; i < x_arr.length; i++ ){
-        if(x_arr.item(i).checked){
-            count++;
-            x = x_arr.item(i).value;
-        }
-    }
-
-    console.log("Значение Х: " + x);
-    console.log("Значение y: " + y);
-    console.log("Значение радиуса R: " + r);
-
-    if(count > 1){
-        fail = "Слишком много значений X, выберете что-то одно";
-    }else if(count == 0){
-        fail = "Вы не выбрали значение X";
-    }else if(y == ""){
-        fail = "Вы не выбрали Y";
-    }else if(!/^[0-9+-.]+$/.test(y)){
-        fail = "Введены некорректные символы";
-    }else if(y >= 5 || y <= -5){
-        fail = "Y не попадает в ограничение";
-    }
-
-    if(fail !== ""){
-        console.log(fail);
-        document.getElementById("error").innerHTML = fail;
-        error.removeAttribute("hidden");
-        // return false;
-    }else{
-        drawPoint(x, y);
-        PostToServer(x, y, r);
-        error.setAttribute("hidden", value);
-    }
-}
-
-
-
-
-function PostToServer(x, y, r) {
-
-    // var y = document.getElementById("choose-y").value;
-    // var r = document.getElementById("select-r").value;
-    // var x = null;
-    // var x_arr = document.getElementsByName("X");
-    // for(var i = 0; i < x_arr.length; i++ ){
-    //     if(x_arr.item(i).checked){
-    //         x = x_arr.item(i).value;
+function ChangeY(){
+    const y = document.getElementById("shoot-form:y-value").value;
+    console.log(y);
+    // if (y <= 3){
+    //     if (y >= 3){
+            y_base = y;
+            console.log("y success saved ", y_base);
     //     }
     // }
+}
+function ChangeX(button){
+    const X = button.value;
+    x_base = X;
+    console.log("x success saved ", x_base);
+}
 
-    // var data = new FormData();
-    // data.append("X", x);
-    // data.append("Y", y);
-    // data.append("R", r);
+function PostToServer(x, y, r) {
 
     const data = {
         "x": x,
         "y": y,
         "r": r
     }
-
 
     // for (let [name, value] of data) {
     //     console.log(`${name} = ${value}`); // key1=value1, потом key2=value2
@@ -166,29 +79,6 @@ function PostToServer(x, y, r) {
     // xhr.send(data);
     // alert("there");
 
-}
-
-function handHttpResponse(text){
-    document.write(text);
-}
-
-
-
-// function newData(text){
-//     var i = localStorage.length;
-//     try{
-//         txt = parseJSON(text, i);
-//     }catch (err){
-//         console.log(err);
-//     }
-//     localStorage.setItem('table_row' + i, text);
-//     // console.log(txt);
-//     addToTable(txt);
-// }
-
-function addToTable(txt){
-    const table = document.getElementById("Data");
-    table.innerHTML += txt;
 }
 
 function clearTable(){
@@ -235,41 +125,6 @@ function handleStartPoint(json){
     }
 }
 
-function fillThetabel(){
-    var lenth = localStorage.length;
-    for (var i = 0; i < lenth; i++){
-        var keey = localStorage.key(i);
-        console.log(keey);
-        var row = localStorage.getItem(keey);
-        JSON.stringify(row);
-        var txt = parseJSON(row);
-        // console.log(txt);
-        addToTable(txt);
-    }
-}
-
-
-function parseJSON(text, id = -1) {
-    try {
-        console.log(text);
-        var row = JSON.parse(text);
-        console.log(row);
-        console.log(row.X);
-        txt = "<tr>\n" +
-            "                <td>" + row.X + "</td>\n" +
-            "                <td>" + row.Y + "</td>\n" +
-            "                <td>" + row.R + "</td>\n" +
-            "                <td>" + row.Result + "</td>\n" +
-            "                <td>" + row.Execute_time + "</td>\n" +
-            "                <td>" + row.Date_now + "</td>\n" +
-            "            </tr>";
-        console.log(txt);
-        return txt;
-    }catch (err){
-        console.log(err);
-        localStorage.removeItem("table_row" + id);
-    }
-}
 // ############################################### Work with canvas
 
 

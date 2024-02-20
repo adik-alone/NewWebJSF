@@ -21,72 +21,91 @@
             <h:form id="shoot-form">
 
                 <div id="choose-X">
-                    <h:commandButton value="-4" actionListener="#{xBean.doXn4()}">
+                    <h:commandButton value="-4" actionListener="#{xBean.doXn4()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="-3" actionListener="#{xBean.doXn3()}">
+                    <h:commandButton value="-3" actionListener="#{xBean.doXn3()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="-2" actionListener="#{xBean.doXn2()}">
+                    <h:commandButton value="-2" actionListener="#{xBean.doXn2()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="-1" actionListener="#{xBean.doXn1()}">
+                    <h:commandButton value="-1" actionListener="#{xBean.doXn1()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="0" actionListener="#{xBean.doX0()}">
+                    <h:commandButton value="0" actionListener="#{xBean.doX0()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="1" actionListener="#{xBean.doXp1()}">
+                    <h:commandButton value="1" actionListener="#{xBean.doXp1()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="2" actionListener="#{xBean.doXp2()}">
+                    <h:commandButton value="2" actionListener="#{xBean.doXp2()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="3" actionListener="#{xBean.doXp3()}">
+                    <h:commandButton value="3" actionListener="#{xBean.doXp3()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="4" actionListener="#{xBean.doXp4()}">
+                    <h:commandButton value="4" actionListener="#{xBean.doXp4()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
                     <div id="result-x">
+                        <h:outputLink value="Choosen value of X:" for="x"/>
                         <h:outputText id="x" value="#{xBean.x}"/>
                     </div>
                 </div>
 
                 <div id="choose-y">
                     <h:inputText id="y-value" value="#{yBean.y}"/>
-                    <h:commandButton value="Aply">
+                    <h:commandButton value="Aply" onclick="ChangeY()">
                         <f:ajax execute="y-value" render="y"/>
                     </h:commandButton>
                     <div id="choos-y">
+                        <h:outputLink value="Choosen value of Y:" for="y"/>
                         <h:outputText id="y" value="#{yBean.y}"/>
                     </div>
                 </div>
 
                 <div id="choose-r">
-                    <h:commandButton value="1" actionListener="#{rBean.doR_1()}">
+                    <h:commandButton value="1" actionListener="#{rBean.doR_1()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
-                    <h:commandButton value="1.5" actionListener="#{rBean.doR_1_5()}">
+                    <h:commandButton value="1.5" actionListener="#{rBean.doR_1_5()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
-                    <h:commandButton value="2" actionListener="#{rBean.doR_2()}">
+                    <h:commandButton value="2" actionListener="#{rBean.doR_2()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
-                    <h:commandButton value="2.5" actionListener="#{rBean.doR_2_5()}">
+                    <h:commandButton value="2.5" actionListener="#{rBean.doR_2_5()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
-                    <h:commandButton value="3" actionListener="#{rBean.doR_3()}">
+                    <h:commandButton value="3" actionListener="#{rBean.doR_3()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
                     <div id="result-r">
-                        <h:outputText id="r" value="#{rBean.r}"/>
+                        <h:outputLink value="Choosen value of R:" for="r"/>
+                        <h:outputText id="r" value="#{rBean.r}" onclick="DrawArea(this)"/>
                     </div>
                 </div>
 
-                <h:commandButton value="Shot" actionListener="#{resultBean.addNewResult()}">
+                <h:commandButton value="Shot" actionListener="#{resultBean.addNewResult()}" onclick="SubmitedForm()">
                     <f:ajax execute="x y r" render="table text column-res result"/>
                 </h:commandButton>
+                <script>
+                    function SubmitedForm(){
+                        console.log(x_base, y_base);
+                        const id = localStorage.length;
+                        const point = x_base + " " + y_base;
+                        console.log(point);
+                        localStorage.setItem("point " + id, point);
+                        drawPoint(x_base, y_base);
+                    }
+                </script>
+            </h:form>
+
+            <h:form id="Clear-form">
+                <p:commandButton value="Clear table" actionListener="#{resultBean.clearTable()}">
+                    <f:ajax render="table text"/>
+                </p:commandButton>
             </h:form>
 
 

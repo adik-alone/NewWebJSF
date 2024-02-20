@@ -44,4 +44,7 @@ public class ResultBean implements Serializable {
         }
         results.add(shot);
     }
+    public void clearTable(){
+        results.clear();
+    }
 }
