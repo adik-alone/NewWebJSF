@@ -1,13 +1,25 @@
 package com.example.newwebjsf.shootbean;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.io.Serializable;
+@Entity
 public class Shot implements Serializable {
+    @Id
+    @GeneratedValue
+    private int id;
     private float x;
     private float y;
     private float r;
     private boolean result;
     private String data;
     private String execute_time;
+
+    public int getId() {
+        return id;
+    }
 
     public float getX() {
         return x;
@@ -28,7 +40,9 @@ public class Shot implements Serializable {
     public String getExecute_time() {
         return execute_time;
     }
-
+    public void setId(int id) {
+        this.id = id;
+    }
     public void setX(float x) {
         this.x = x;
     }
