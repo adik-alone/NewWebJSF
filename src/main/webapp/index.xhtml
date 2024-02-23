@@ -111,7 +111,7 @@
 
             <h:form id="Clear-form">
                 <p:commandButton value="Clear table" actionListener="#{resultBean.clearTable()}" onclick="clearTable()">
-                    <f:ajax render="table text"/>
+                    <f:ajax render="table column-res text" />
                 </p:commandButton>
             </h:form>
 
@@ -122,7 +122,7 @@
             </div>
 
 
-            <p:dataTable id="table" var="shot" value="#{resultBean.results}">
+            <p:dataTable id="table" var="shot" value="#{resultBean.results}" >
                 <p:column class="column-res" headerText="X">
                     <h:outputText id="point-x-value" class="text" value="#{shot.x}"/>
                 </p:column>

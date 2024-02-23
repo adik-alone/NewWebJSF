@@ -1,26 +1,8 @@
-var x_base;
+var x_base = 0;
 var y_base = 0;
-var r_base = 1;
+var r_base = 0;
 
 getStartPoint();
-
-function CheckForm() {
-    console.log(x_base);
-    console.log(y_base);
-    console.log(r_base);
-    if (x_base == undefined || r_base == undefined) {
-        const fail = "Выбраны не все значения для проверки";
-        document.getElementById("error").innerHTML = fail;
-        error.removeAttribute("hidden");
-    } else {
-        const id = localStorage.length;
-        const point = x_base + " " + y_base;
-        console.log(point);
-        localStorage.setItem("point " + id, point);
-        drawPoint(x_base, y_base);
-        PostToServer(x_base, y_base, r_base);
-    }
-}
 function ChangeY(){
     const y = document.getElementById("shoot-form:y-value").value;
     console.log(y);
@@ -37,58 +19,15 @@ function ChangeX(button){
     console.log("x success saved ", x_base);
 }
 
-function PostToServer(x, y, r) {
-
-    const data = {
-        "x": x,
-        "y": y,
-        "r": r
-    }
-
-    // for (let [name, value] of data) {
-    //     console.log(`${name} = ${value}`); // key1=value1, потом key2=value2
-    // }
-    var formBody = [];
-    for (var property in data) {
-        var encodedKey = encodeURIComponent(property);
-        var encodedValue = encodeURIComponent(data[property]);
-        formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    //console.log("Выполнили это");
-
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState == XMLHttpRequest.DONE && request.status === 200) {
-            // newData(request.responseText);
-            // location.assign('./index.jsp');
-            // window.sayHi();
-            handHttpResponse(request.responseText);
-        }
-    };
-    request.open('POST', './check', true);
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    // console.log(JSON.stringify(data));
-    // request.send(JSON.stringify(data));
-    request.send(formBody);
-
-
-    // for (var key of data.keys()) {
-    //     console.log(key, data.get(key));
-    // }
-    // xhr.send(data);
-    // alert("there");
-
-}
-
 function clearTable(){
     localStorage.clear();
+    // drawFigures(r_base);
+    // drawAllPoint();
+    DrawCanvas();
 }
 function getStartPoint(){
     localStorage.clear();
     const count_row = document.getElementById("table").childNodes[0].childNodes[0].childNodes[1].childNodes.length;
-    // const startpoint = document.getElementsByClassName("text");
-    // console.log(startpoint);
     for (let i = 0; i < count_row; i++){
         try{
             const id = localStorage.length;
@@ -106,26 +45,6 @@ function getStartPoint(){
         }
     }
 }
-
-function handleStartPoint(json){
-    localStorage.clear();
-    let text = JSON.parse(json);
-    // console.log("before len");
-    // console.log(text.points.length);
-    // console.log("after");
-    // console.log(text.points);
-    // console.log(text.points[0]);
-    for(let i = 0; i < text.points.length; i++){
-        const id = localStorage.length;
-        [x, y] = text.points[i].split(' ');
-        // const x = text.points[i].x;
-        // const y = text.points[i].y;
-        const point = x + " " + y;
-        // console.log(point);
-        localStorage.setItem("point " + id, point);
-    }
-}
-
 // ############################################### Work with canvas
 // /////////////////////////////////////////////////////////////////////////////////////
 // /////////////////////////////////////////////////////////////////////////////////////
@@ -176,12 +95,15 @@ function drawPoint(x, y){
 
 
 function DrawArea(button){
-    BackGroundColor("#fff");
-    DrawXandY();
+    DrawCanvas();
     const R = button.value;
     r_base = R;
     drawFigures(R);
     drawAllPoint();
+}
+function DrawCanvas(){
+    BackGroundColor("#fff");
+    DrawXandY();
 }
 
 function Changecenter(){
@@ -297,6 +219,8 @@ function handleClick(event) {
     const x = event.clientX - rect.left - 150;
     const y = -1 * (event.clientY - rect.top - 200);
     drawPoint(x/25, y/25);
+    x_base = x/25;
+    y_base = y/25;
     console.log(r_base);
     if (r_base == undefined){
         console.log("here");
@@ -317,7 +241,7 @@ function handleClick(event) {
         const id = localStorage.length;
         const point = x/25 + " " + y/25;
         console.log(point);
-        localStorage.setItem("point " + id, point);
+        // localStorage.setItem("point " + id, point);
         // error.innerHTML = "";
         // PostToServer((x/25).toFixed(2), (y/25).toFixed(2), r_base);
         console.log(x, y, r_base);
@@ -350,10 +274,8 @@ function drawAllPoint(){
 
 
 
-// fillThetabel();
 
 var error = document.getElementById("error");
-// error.setAttribute("hidden");
 
 
 var canvas = document.getElementById("MyCanvas");
@@ -361,22 +283,8 @@ const ctx = canvas.getContext('2d');
 canvas.width = 300;
 canvas.hieght = 400;
 
-
-// canvas.addEventListener("click", function (event){
-//     console.log("Handler1");
-//     drawPoint(event.clientX, event.clientY);
-// });
-
 canvas.addEventListener("click", handleClick);
 
-
-
-
-// ctx.beginPath();
-// ctx.moveTo(150, 0);
-// ctx.lineTo(150, 405);
-// ctx.moveTo(0, 202.5);
-// ctx.lineTo(300, 202.5);
 
 ctx.fillStyle = "#fff";
 ctx.fillcolor = "#fff";
@@ -390,39 +298,8 @@ const h = 400;
 const size = 25;
 
 Changecenter();
-BackGroundColor("#fff");
-DrawXandY();
-drawFigures();
-// ctx.fillRect(0, 199, 300, 1);
-// ctx.fillRect(149, 0, 1, 400);
-// ctx.beginPath();
-// ctx.moveTo(285, 194.5);
-// ctx.lineTo(300, 199.5);
-// ctx.lineTo(285, 205);
-// ctx.closePath();
-// ctx.fill();
-//
-// ctx.beginPath();
-// ctx.moveTo(145, 15);
-// ctx.lineTo(150, 0);
-// ctx.lineTo(155, 15);
-// ctx.closePath();
-// ctx.fill();
-// ctx.translate(150, 200);
-// ctx.scale(1, -1);
-
-// ctx.fillRect(0, 0, 10, -10);
-
-// for(var i = -141; i < 130; i += 20){
-//     ctx.fillRect(i, 5, 1, -9);
-// }
-// for(var i = -191; i < 170; i += 20){
-//     ctx.fillRect(-5, i, 9, -1);
-// }
-// drawLines(ctx, size, 300, 400);
-drawFigures(ctx, size);
+DrawCanvas();
 drawAllPoint();
-// drawFigures(ctx, -100);
 
 
 
