@@ -10,92 +10,97 @@
       >
     <h:head>
         <title>Hello word!</title>
+        <link rel="stylesheet" href="main.css"/>
 
     </h:head>
     <h:body>
+        <div id="header"><h1>Try to get success shot</h1></div>
         <div id="canvas">
             <canvas id="MyCanvas" width="599" height="400" style="border: black solid 3px"/>
         </div>
 
         <f:view>
-
+            <div id="main">
             <h:form id="shoot-form"  >
 <!--                <f:ajax execute="x y r" render="table text column-res result"/>-->
                 <div id="choose-X">
-                    <h:commandButton value="-4" actionListener="#{xBean.doXn4()}" onclick="ChangeX(this)">
+                    <div>Choose x (click on the button)</div>
+                    <h:commandButton class="r-button" value="-4" actionListener="#{xBean.doXn4()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="-3" actionListener="#{xBean.doXn3()}" onclick="ChangeX(this)">
+                    <h:commandButton class="r-button" value="-3" actionListener="#{xBean.doXn3()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="-2" actionListener="#{xBean.doXn2()}" onclick="ChangeX(this)">
+                    <h:commandButton class="r-button" value="-2" actionListener="#{xBean.doXn2()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="-1" actionListener="#{xBean.doXn1()}" onclick="ChangeX(this)">
+                    <h:commandButton class="r-button" value="-1" actionListener="#{xBean.doXn1()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="0" actionListener="#{xBean.doX0()}" onclick="ChangeX(this)">
+                    <h:commandButton class="r-button" value="0" actionListener="#{xBean.doX0()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="1" actionListener="#{xBean.doXp1()}" onclick="ChangeX(this)">
+                    <h:commandButton class="r-button" value="1" actionListener="#{xBean.doXp1()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="2" actionListener="#{xBean.doXp2()}" onclick="ChangeX(this)">
+                    <h:commandButton class="r-button" value="2" actionListener="#{xBean.doXp2()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="3" actionListener="#{xBean.doXp3()}" onclick="ChangeX(this)">
+                    <h:commandButton class="r-button" value="3" actionListener="#{xBean.doXp3()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
-                    <h:commandButton value="4" actionListener="#{xBean.doXp4()}" onclick="ChangeX(this)">
+                    <h:commandButton class="r-button" value="4" actionListener="#{xBean.doXp4()}" onclick="ChangeX(this)">
                         <f:ajax render="x"/>
                     </h:commandButton>
                     <h:inputText id="x-inv-value" value="#{xBean.x}" style="display: none"/>
                     <div id="result-x">
-                        <h:outputLink value="Choosen value of X:" for="x"/>
+                        <h:outputLabel for="x" value="Choosen value of X:"/>
                         <h:outputText id="x" value="#{xBean.x}"/>
                     </div>
                 </div>
 
                 <div id="choose-y">
-                    <h:inputText id="y-value" value="#{yBean.y}">
-                        <f:validateLongRange minimum="-3" maximum="3"/>
+                    <div>Choose y: text your value in range (-3, 3)</div>
+                    <h:inputText id="y-value" value="#{yBean.y}" required="true">
+                        <f:validateLongRange minimum="-2" maximum="2"/>
                     </h:inputText>
-                    <h:commandButton value="Aply" onclick="ChangeY()">
+                    <h:commandButton class="aply-button" value="Aply" onclick="ChangeY()">
                         <f:ajax execute="y-value" render="y"/>
                     </h:commandButton>
                     <div id="choos-y">
-                        <h:outputLink value="Choosen value of Y:" for="y"/>
+                        <h:outputLabel value="Y = " for="y"/>
                         <h:outputText id="y" value="#{yBean.y}"/>
                     </div>
                 </div>
 
                 <div id="choose-r">
-                    <h:commandButton value="1" actionListener="#{rBean.doR_1()}" onclick="DrawArea(this)">
+                    <div>Choose r with click on the button</div>
+                    <h:commandButton class="r-button" value="1" actionListener="#{rBean.doR_1()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
-                    <h:commandButton value="1.5" actionListener="#{rBean.doR_1_5()}" onclick="DrawArea(this)">
+                    <h:commandButton class="r-button" value="1.5" actionListener="#{rBean.doR_1_5()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
-                    <h:commandButton value="2" actionListener="#{rBean.doR_2()}" onclick="DrawArea(this)">
+                    <h:commandButton class="r-button" value="2" actionListener="#{rBean.doR_2()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
-                    <h:commandButton value="2.5" actionListener="#{rBean.doR_2_5()}" onclick="DrawArea(this)">
+                    <h:commandButton class="r-button" value="2.5" actionListener="#{rBean.doR_2_5()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
-                    <h:commandButton value="3" actionListener="#{rBean.doR_3()}" onclick="DrawArea(this)">
+                    <h:commandButton class="r-button" value="3" actionListener="#{rBean.doR_3()}" onclick="DrawArea(this)">
                         <f:ajax render="r"/>
                     </h:commandButton>
                     <h:inputText id="r-inv-value" value="#{rBean.r}" style="display: none"/>
                     <div id="result-r">
-                        <h:outputLink value="Choosen value of R:" for="r"/>
+                        <h:outputLabel value="R = " for="r"/>
                         <h:outputText id="r" value="#{rBean.r}" onclick="DrawArea(this)"/>
                     </div>
                 </div>
 
-                <h:commandButton id="button-submit" value="Shot" actionListener="#{resultBean.addNewResult()}" onclick="SubmitedForm()">
+                <h:commandButton id="button-submit" class="ui-button" value="Shot" actionListener="#{resultBean.addNewResult()}" onclick="SubmitedForm()" style="background-color: #282c34">
                     <f:ajax execute="x y r" render="table text column-res result"/>
                 </h:commandButton>
-                <h:commandButton id="inv-button-submit" value="Shot" actionListener="#{resultBean.addNewResult()}" onclick="SubmitedForm()" style="display: none;">
+                <h:commandButton id="inv-button-submit" value="Shot" actionListener="#{resultBean.addNewResult()}" onclick="SubmitedForm()" style="display: none; padding: 3px">
                     <f:ajax execute="x-inv-value y-value r-inv-value" render="table text column-res result"/>
                 </h:commandButton>
                 <script>
@@ -109,18 +114,21 @@
                     }
                 </script>
             </h:form>
-
+                <div class="spase"></div>
             <h:form id="Clear-form">
-                <p:commandButton value="Clear table" actionListener="#{resultBean.clearTable()}" onclick="clearTable()">
+                <p:commandButton class="ui-button" value="Clear table" actionListener="#{resultBean.clearTable()}" onclick="clearTable()" style="background-color: #282c34">
                     <f:ajax render="table column-res text" />
                 </p:commandButton>
             </h:form>
-
-            <h:outputText id="error"></h:outputText>
-
             <div>
                 <h:outputLink value="first.xhtml">Come back to the clock</h:outputLink>
             </div>
+                <div>
+                    <h:outputText id="error" style="display: none"/>
+                </div>
+            </div>
+
+
 
 
             <p:dataTable id="table" var="shot" value="#{resultBean.results}" >

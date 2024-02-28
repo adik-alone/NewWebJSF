@@ -1,17 +1,39 @@
 var x_base = 0;
 var y_base = 0;
-var r_base = 0;
+var r_base = 1;
 
 getStartPoint();
-function ChangeY(){
+function ChangeY() {
+    let fail = "";
     const y = document.getElementById("shoot-form:y-value").value;
+    try {
+        if (!/-?[1-90]+[.]?[1-90]*/.test(y) || /-?[a-zA-Z]+[.]?[a-zA-Z]*/.test(y)) {
+            fail = "Y должен быть числом";
+            // document.getElementById("shoot-form:y-value").value = "0.0";
+        } else {
+            if (y <= -3 || y >= 3) {
+                try{
+                    // document.getElementById("shoot-form:y-value").value = "0.0";
+                }catch(e){
+                    console.log(e);
+                }
+                fail = "Y не попадает в диапазон";
+            } else {
+                y_base = y;
+            }
+        }
+    }catch (e){
+        console.log(e);
+    }
+    console.log(fail);
+    if(fail === ""){
+        error.style.display = "none";
+    }else {
+        error.innerHTML = fail;
+        error.style.display = "inline-block";
+    }
     console.log(y);
-    // if (y <= 3){
-    //     if (y >= 3){
-            y_base = y;
-            console.log("y success saved ", y_base);
-    //     }
-    // }
+    console.log("y success saved ", y_base);
 }
 function ChangeX(button){
     const X = button.value;
@@ -19,11 +41,14 @@ function ChangeX(button){
     console.log("x success saved ", x_base);
 }
 
+function CheckRadius(){
+
+}
+
 function clearTable(){
     localStorage.clear();
-    // drawFigures(r_base);
-    // drawAllPoint();
     DrawCanvas();
+    drawFigures(r_base);
 }
 function getStartPoint(){
     localStorage.clear();
@@ -225,29 +250,27 @@ function handleClick(event) {
     if (r_base == undefined){
         console.log("here");
         error.innerHTML = "Вы не выбрали радиус";
-        error.removeAttribute("hidden");
+        error.style.display = "inline-block"
     }else{
         //validation of x and y
         if(!validX(x/25)){
             error.innerHTML = "X выходит за пределы возможного диапазона";
-            error.removeAttribute("hidden");
+            error.style.display = "inline-block"
             return;
         }
         if(!validY(y/25)){
             error.innerHTML = "Y выходит за пределы возможного диапазона";
-            error.removeAttribute("hidden");
+            error.style.display = "inline-block"
             return;
         }
+        error.style.display = "none";
+        error.innerHTML = "";
         const id = localStorage.length;
         const point = x/25 + " " + y/25;
         console.log(point);
-        // localStorage.setItem("point " + id, point);
-        // error.innerHTML = "";
-        // PostToServer((x/25).toFixed(2), (y/25).toFixed(2), r_base);
         console.log(x, y, r_base);
         fillForm((x/25).toFixed(2), (y/25).toFixed(2), r_base);
     }
-    // PostToServer(x, y, r_base);
 }
 
 function fillForm(x_f, y_f, r_f){
@@ -301,5 +324,6 @@ Changecenter();
 DrawCanvas();
 drawAllPoint();
 
+drawFigures(r_base);
 
 
