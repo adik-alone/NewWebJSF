@@ -6,31 +6,30 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-
+    <title>Lab3</title>
+    <link rel="stylesheet" href="first.css"/>
 </h:head>
 <h:body>
     <f:view>
-        <div>
-            <h:outputText value="Цалов Василий Сергеевич"/>
+        <div id="header">
+                <h:outputText id="name" value="Цалов Василий Сергеевич"/><br/>
+                <h:outputText class="vtor" value="Группа: P3207"/><br/>
+                <h:outputText class="vtor" value="Вариант: 16431"/>
         </div>
-        <div>
-            <h:outputText value="Группа: P3207"/>
+        <div id="body">
+            <h:form id="update-form">
+                <div>
+                    <h:outputText id="time" class="time" value="#{timeBean.time}"/>
+                </div>
+                <div>
+                    <h:outputText id="date" class="date" value="#{timeBean.date}"/>
+                </div>
+                <h:commandButton id="update-button" value="" actionListener="#{timeBean.updateDateTime()}" style="display: none">
+                    <f:ajax render="time date"/>
+                </h:commandButton>
+                <h:outputLink value="index.xhtml">Go to the base page</h:outputLink>
+            </h:form>
         </div>
-        <div>
-            <h:outputText value="Вариант: 16431"/>
-        </div>
-        <h:form id="update-form">
-            <div>
-                <h:outputText id="time" value="#{timeBean.time}"/>
-            </div>
-            <div>
-                <h:outputText id="date" value="#{timeBean.date}"/>
-            </div>
-            <h:commandButton id="update-button" value="" actionListener="#{timeBean.updateDateTime()}" style="display: none">
-                <f:ajax render="time date"/>
-            </h:commandButton>
-        </h:form>
-        <h:outputLink value="index.xhtml">Go to the base page</h:outputLink>
     </f:view>
     <script>
         function updateTime(){
