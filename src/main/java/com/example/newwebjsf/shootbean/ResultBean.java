@@ -1,6 +1,8 @@
 package com.example.newwebjsf.shootbean;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -25,7 +27,11 @@ public class ResultBean implements Serializable {
     private RBean rBean;
     private List results = new ArrayList<>();
     public List<Shot> getResults() {
-        results = entityManager.createQuery("select s from Shot s").getResultList();
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        String session = (String) externalContext.getSessionId(true);
+//        String session = (String) sessionMap.get("sessionAttribute").toString();
+
+        results = entityManager.createQuery("select s from Shot s where s.session = :sessionValue ").setParameter("sessionValue", session).getResultList();
         return results;
     }
 
@@ -34,11 +40,17 @@ public class ResultBean implements Serializable {
     }
     @Transactional
     public void addNewResult (){
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        String session = (String) externalContext.getSessionId(true);
+//        Map<String, Object> sessionMap = externalContext.getSessionMap();
+//        String session = sessionMap.get("sessionAttribute").toString();
+
         long start_time = System.nanoTime();
         Shot shot = new Shot();
         shot.setX(xBean.getX());
         shot.setY(yBean.getY());
         shot.setR(rBean.getR());
+        shot.setSession(session);
         if(CheckArea(shot)){
             shot.setResult(true);
         }else{
@@ -50,7 +62,6 @@ public class ResultBean implements Serializable {
         long execution_time = (end_time - start_time)/1000;
         String exec_time = String.valueOf(execution_time) + " mc";
         shot.setExecute_time(exec_time);
-//        results.add(shot);
         try{
             entityManager.persist(shot);
         }catch (Exception e){
@@ -60,9 +71,11 @@ public class ResultBean implements Serializable {
     }
     @Transactional
     public void clearTable(){
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        String session = (String) externalContext.getSessionId(true);
 //        results.clear();
 //        entityManager.clear();
-        entityManager.createQuery("DELETE from Shot").executeUpdate();
+        entityManager.createQuery("DELETE from Shot s where s.session = :session ").setParameter("session", session).executeUpdate();
     }
     private boolean CheckArea(Shot shot){
         float x = shot.getX();

@@ -16,6 +16,7 @@ public class Shot implements Serializable {
     private boolean result;
     private String data;
     private String execute_time;
+    private String session;
 
     public int getId() {
         return id;
@@ -40,6 +41,11 @@ public class Shot implements Serializable {
     public String getExecute_time() {
         return execute_time;
     }
+
+    public String getSession() {
+        return session;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -68,5 +74,8 @@ public class Shot implements Serializable {
     }
     public boolean isResult() {
         return result;
+    }
+    public void setSession(String session) {
+        this.session = session;
     }
 }
