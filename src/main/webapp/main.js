@@ -102,8 +102,8 @@ function checkArea(x, y){
 function drawPoint(x, y){
 
     if(checkArea(x, y)){
-        ctx.fillcolor = "rgb(300, 200, 0)";
-        ctx.fillStyle = "rgb(300, 200, 20)";
+        ctx.fillcolor = "#FF8100";
+        ctx.fillStyle = "#FF8100";
     }else{
         ctx.fillcolor = "rgb(206, 0, 21)";
         ctx.fillStyle = "rgb(206, 0, 21)";
