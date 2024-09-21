@@ -77,7 +77,7 @@ public class ResultBean implements Serializable {
 //        entityManager.clear();
         entityManager.createQuery("DELETE from Shot s where s.session = :session ").setParameter("session", session).executeUpdate();
     }
-    private boolean CheckArea(Shot shot){
+    public boolean CheckArea(Shot shot){
         float x = shot.getX();
         float y = shot.getY();
         float r = shot.getR();
