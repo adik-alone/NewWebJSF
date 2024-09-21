@@ -31,7 +31,10 @@
 
     <target name="compile-test" depends="build">
         <exec executable="java">
-            <arg value="${JAVA_ARGS} -jar build/JSF.jar"/>
+            <arg value="${JAVA_ARG1}"/>
+            <arg value="${JAVA_ARG2}"/>
+            <arg value="-jar"/>
+            <arg value="build/myapp.jar"/>
         </exec>
     </target>
 
