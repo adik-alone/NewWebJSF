@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <project name="JsfProject" default="compile">
     <!-- property -->
+    <property file="env.properties"/>
     <property file="build.properties"/>
 
     <!-- targets -->
@@ -10,6 +11,7 @@
     </target>
 
     <target name="build" depends="compile">
+        <echo message="Building with Java version: ${JAVA_VERSION}"/>
         <jar destfile="${dist.dir}/${jar.name}" basedir="${build.dir}">
             <fileset dir="${res.dir}">
                 <include name="java/com.example.newwebjsf/**/*.*"/>
@@ -28,23 +30,18 @@
     </target>
 
     <target name="compile-test" depends="build">
-<!--        <javac srcdir="${test.dir}" destdir="${build.dir}" classpathref="project.classpath" includeantruntime="false"/>-->
+        <exec executable="java">
+            <arg value="${JAVA_ARG1}"/>
+            <arg value="${JAVA_ARG2}"/>
+            <arg value="-cp"/>
+            <arg value="${build.dir}/com.example.newwebjsf.shootbean.ResultBean"/> <!-- вот тут хуйня -->
+            <arg value="-jar"/>
+            <arg value="${dist.dir}/JSF.jar"/>
+        </exec>
     </target>
 
-    <target name="test" depends="compile-test">
+    <target name="test" depends="build">
         <mkdir dir="${test.report.dir}"/>
-<!--        <junit>-->
-<!--            <classpath>-->
-<!--                <pathelement location="${dist.dir}"/>-->
-<!--                <pathelement location="lib/junit-4.13.2.jar"/>-->
-<!--            </classpath>-->
-<!--            <batchtest todir="${test.report.dir}">-->
-<!--                <fileset dir="${test.dir}">-->
-<!--                    <include name="*Test.java"/>-->
-<!--                </fileset>-->
-<!--            </batchtest>-->
-<!--            <test name="ShootBeanTest"/>-->
-<!--        </junit>-->
         <junit printsummary="on" haltonfailure="yes" fork="true" showoutput="true">
             <classpath refid="project.classpath"/>
             <classpath location="${dist.dir}/${jar.name}"/>
@@ -60,29 +57,14 @@
     <target name="scp">
         <echo message="Deploying to ${server.host}..."/>
         <exec executable="scp">
-            <arg value="${dist.dir}/myproject.jar"/>
+            <arg value="${dist.dir}/*.jar"/>
             <arg value="${server.user}@${server.host}:${server.path}"/>
         </exec>
         <echo message="Deployment completed."/>
     </target>
 
-    <target name="env">
-
-    </target>
-
     <path id="project.classpath">
         <fileset dir="${lib.dir}">
-<!--            <include name="jakarta.enterprise.cdi-api-4.0.1.jar"/>-->
-<!--            <include name="jakarta.faces-api-3.0.0.jar"/>-->
-<!--            <include name="jakarta.servlet-api-5.0.0.jar"/>-->
-<!--            <include name="hibernate-core-6.0.2.Final.jar"/>-->
-<!--            <include name="jaxb-runtime-3.0.2.jar"/>-->
-<!--            <include name="primefaces-13.0.5.jar"/>-->
-<!--            <include name="gson-2.10.1.jar"/>-->
-<!--            <include name="joda-time-2.12.7.jar"/>-->
-<!--            <include name="junit-4.13.2.jar"/>-->
-<!--            <include name="jakarta.inject-2.6.1.jar"/>-->
-<!--            <include name="jakarta.persistence-2.2.3.jar"/>-->
             <include name="*.jar"/>
         </fileset>
     </path>
