@@ -1,7 +1,7 @@
 Testsuite: ShootBeanTest
 Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,009 sec
 
-Testcase: testCheckAreaTrue took 0,002 sec
+Testcase: testCheckAreaTrue took 0,003 sec
 Testcase: testCheckAreaZero took 0 sec
 Testcase: testCheckAreaFalse took 0 sec
 Testcase: testCheckAreaTrue_2 took 0 sec

@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <project name="JsfProject" default="compile">
     <!-- property -->
+    <property file="env.properties"/>
     <property file="build.properties"/>
+
 
     <!-- targets -->
     <target name="compile">
@@ -10,6 +12,7 @@
     </target>
 
     <target name="build" depends="compile">
+        <echo message="Building with Java version: ${JAVA_VERSION}"/>
         <jar destfile="${dist.dir}/${jar.name}" basedir="${build.dir}">
             <fileset dir="${res.dir}">
                 <include name="java/com.example.newwebjsf/**/*.*"/>
@@ -28,23 +31,13 @@
     </target>
 
     <target name="compile-test" depends="build">
-<!--        <javac srcdir="${test.dir}" destdir="${build.dir}" classpathref="project.classpath" includeantruntime="false"/>-->
+        <exec executable="java">
+            <arg value="${JAVA_ARGS} -jar build/JSF.jar"/>
+        </exec>
     </target>
 
     <target name="test" depends="compile-test">
         <mkdir dir="${test.report.dir}"/>
-<!--        <junit>-->
-<!--            <classpath>-->
-<!--                <pathelement location="${dist.dir}"/>-->
-<!--                <pathelement location="lib/junit-4.13.2.jar"/>-->
-<!--            </classpath>-->
-<!--            <batchtest todir="${test.report.dir}">-->
-<!--                <fileset dir="${test.dir}">-->
-<!--                    <include name="*Test.java"/>-->
-<!--                </fileset>-->
-<!--            </batchtest>-->
-<!--            <test name="ShootBeanTest"/>-->
-<!--        </junit>-->
         <junit printsummary="on" haltonfailure="yes" fork="true" showoutput="true">
             <classpath refid="project.classpath"/>
             <classpath location="${dist.dir}/${jar.name}"/>
