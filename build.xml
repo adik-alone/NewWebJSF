@@ -31,12 +31,7 @@
 
     <target name="compile-test" depends="build">
         <exec executable="java">
-            <arg value="${JAVA_ARG1}"/>
-            <arg value="${JAVA_ARG2}"/>
-            <arg value="-cp"/>
-            <arg value="${build.dir}/com.example.newwebjsf.shootbean.ResultBean"/> <!-- вот тут хуйня -->
-            <arg value="-jar"/>
-            <arg value="${dist.dir}/JSF.jar"/>
+            <arg value="${JAVA_VERSION}"/>
         </exec>
     </target>
 
