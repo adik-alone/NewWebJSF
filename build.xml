@@ -29,9 +29,19 @@
         <delete dir="${dist.dir}"/>
     </target>
 
-    <target name="compile-test" depends="build">
+    <target name="env" depends="build">
+        <java fork="true">
+            <classpath>
+                <pathelement path="${build.dir}"/>
+            </classpath>
+        </java>
         <exec executable="java">
-            <arg value="${JAVA_VERSION}"/>
+            <arg value="${JAVA_ARG1}"/>
+            <arg value="${JAVA_ARG2}"/>
+            <arg value="-cp"/>
+            <arg value="${main.class}"/>
+            <arg value="-jar"/>
+            <arg value="${dist.dir}/${jar.name}"/>
         </exec>
     </target>
 
@@ -49,10 +59,10 @@
         </junit>
     </target>
 
-    <target name="scp">
+    <target name="scp" depends="build">
         <echo message="Deploying to ${server.host}..."/>
         <exec executable="scp">
-            <arg value="${dist.dir}/*.jar"/>
+            <arg value="${dist.dir}/JSF.jar"/>
             <arg value="${server.user}@${server.host}:${server.path}"/>
         </exec>
         <echo message="Deployment completed."/>
